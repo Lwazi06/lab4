@@ -98,3 +98,5 @@ document.getElementById("country-input").addEventListener("keypress", (e) => {
         searchCountry(country);
     }
 });
+
+//fixed
