@@ -31,7 +31,19 @@ async function searchCountry(countryName) {
         }
 
         const data = await response.json();
-        const country = data[0];
+        
+        // Filter out dependent territories and find exact match
+        const sovereignCountries = data.filter(c => !c.independent || c.independent === true);
+        
+        // Check for exact match (case-insensitive)
+        const country = sovereignCountries.find(c => 
+            c.name.common.toLowerCase() === countryName || 
+            c.name.official.toLowerCase() === countryName
+        );
+        
+        if (!country) {
+            throw new Error('Country not found');
+        }
 
         // Display country info
         countryInfo.innerHTML = `
